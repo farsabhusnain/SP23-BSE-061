@@ -30,6 +30,35 @@ nav ul li a {
     text-decoration: none;
 }
 
+.corner-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: #fff;
+    padding: 2px 5px;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.corner-tag.new {
+    background-color: red;
+}
+
+.corner-tag.sale {
+    background-color: red;
+}
+
+#search-cart {
+    float: right;
+    margin-top: 10px;
+}
+
+#search-cart a {
+    margin-right: 10px;
+    color: #ffffff;
+}
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -44,8 +73,58 @@ nav ul li a {
     padding: 15px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
 }
 
+  product-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .product-card:hover button {
+    background-color: #218838;
+  }
+  
+  .product-card:hover .cart-icon {
+    opacity: 1;
+  }
+
+  .product-card img {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.2s ease-in-out; /* add transition for smooth animation */
+  }
+  
+  .product-card:hover img {
+    transform: scale(1.1); /* scale up the image on hover */
+    animation: pulse 1s ease-in-out infinite; /* add animation */
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1.1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  }
+  
+  .cart-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  .product-card:hover .cart-icon {
+    opacity: 1;
+  }
 .product-card img {
     max-width: 100%;
     height: auto;
@@ -73,3 +152,67 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.active-nav{
+    color:red
+}
+
+.sale-button{
+    color: red;
+}
+
+
+  #top-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  #social-icons {
+    display: inline-block;
+    margin-right:210px;
+    margin-left: 55px;
+  }
+  
+  #social-icons a {
+    font-size: 14px;
+    color:white;
+    margin: 0 10px;
+  }
+  
+  #sentence {
+    display: inline-block;
+    font-size: 14px;
+    color:white;
+    margin-right:420px;
+  }
+
+  .menu{
+    font-size: 15px;
+    margin-top: 10px;
+  }
+
+  .nav{
+    display:flex;
+    align-items: center;
+  }
+
+  #menu{
+    display: inline-block;
+    margin-right: 16px;
+    margin-top: 10px;
+    margin-left: 130px;
+
+  }
+   
+  #search-cart a{
+    display: inline-block;
+    margin:0 15px ;
+    margin-top: 15px;
+    margin-right: 20px;
+    
+  }
+
+  
+
+  
