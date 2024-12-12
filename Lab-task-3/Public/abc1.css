@@ -1,0 +1,185 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.nav-item {
+    margin-right: 20px;
+}
+
+.nav-link {
+    color: #333;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #666;
+}
+
+.header {
+    background-image: linear-gradient(to bottom, #333, #555);
+    background-size: 100% 300px;
+    background-position: 0% 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.about {
+    padding: 5rem 0;
+}
+
+.about h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.about p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.skill {
+    padding: 5rem 0;
+}
+
+.skill h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.skill .progress {
+    height: 20px;
+    margin-bottom: 20px;
+}
+
+.service {
+    padding: 5rem 0;
+}
+
+.service h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.service .card {
+    margin-bottom: 20px;
+}
+
+.portfolio {
+    padding: 5rem 0;
+}
+
+.portfolio h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.portfolio .card {
+    margin-bottom: 20px;
+}
+
+.testimonial {
+    padding: 5rem 0;
+}
+
+.testimonial h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.testimonial .card {
+    margin-bottom: 20px;
+}
+
+.blog {
+    padding: 5rem 0;
+}
+
+.blog h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.blog .card {
+    margin-bottom: 20px;
+}
+
+.contact {
+    padding: 5rem 0;
+}
+
+.contact h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.contact .card {
+    margin-bottom: 20px;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer p {
+    margin-bottom: 10px;
+}
+
+.footer a {
+    color: #fff;
+    transition: color 0.2s ease;
+}
+
+.footer a:hover {
+    color: #ccc;
+}
+
+.text-primary {
+    color: #0BCEAF !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.display-3 {
+    font-size: 4.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
