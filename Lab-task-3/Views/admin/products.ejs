@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- pageTitle %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+
+        h3 {
+            color: #17a2b8;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background-color: #e9ecef;
+            border-color: #e9ecef;
+            color: #6c757d;
+        }
+
+        .table {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .table td img {
+            width: 100px;
+            border-radius: 5px;
+        }
+
+        .table .btn {
+            margin-right: 10px;
+        }
+
+        .table .btn-warning {
+            background-color: #ffc107;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+        }
+
+        .table .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+        }
+
+        .table .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .table .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .pagination .page-item .page-link {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: #f1f1f1;
+        }
+
+        .pagination .page-item .page-link:focus {
+            box-shadow: none;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .pagination .page-item.active .page-link:hover {
+            background-color: #138496;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3><%- pageTitle %></h3>
+        <a href="/admin/products/create" class="btn btn-info mb-3">Create New Product</a>
+
+        <div class="mb-3">
+            Page <%= page %> of <%= totalPages %>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
+                    <a class="page-link" href="/admin/products/<%= Number(page) - 1 %>">Previous</a>
+                </li>
+                <% for (let index = 1; index <= totalPages; index++) { %>
+                    <li class="page-item <%= page == index ? 'active' : '' %>">
+                        <a class="page-link" href="/admin/products/<%= index %>"><%= index %></a>
+                    </li>
+                <% } %>
+                <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
+                    <a class="page-link" href="/admin/products/<%= Number(page) + 1 %>">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Picture</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let index = 0; index < products.length; index++) { %>
+                    <tr>
+                        <td><%= products[index]._id %></td>
+                        <td><%= products[index].title %></td>
+                        <td><%= products[index].price %></td>
+                        <td><%= products[index].description %></td>
+                        <td><img src="/<%= products[index].picture %>" alt="<%= products[index].title %>"></td>
+                        <td>
+                            <a href="/admin/products/edit/<%= products[index]._id %>" class="btn btn-warning">Edit</a>
+                            <a href="/admin/products/delete/<%= products[index]._id %>" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

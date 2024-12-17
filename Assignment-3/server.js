@@ -24,9 +24,7 @@ server.get("/Bootstrap", (req, res) => {
   return res.render("bootstrap");
 });
 
-server.get("/", (req, res) => {
-  res.render("index");
-});
+
 
 
 // fire up the server software at port

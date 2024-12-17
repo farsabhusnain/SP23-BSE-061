@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- pageTitle %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+
+        h3 {
+            color: #17a2b8;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background-color: #e9ecef;
+            border-color: #e9ecef;
+            color: #6c757d;
+        }
+
+        .table {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .table .btn {
+            margin-right: 10px;
+        }
+
+        .table .btn-warning {
+            background-color: #ffc107;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+        }
+
+        .table .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+        }
+
+        .table .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .table .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .pagination .page-item .page-link {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: #f1f1f1;
+        }
+
+        .pagination .page-item .page-link:focus {
+            box-shadow: none;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .pagination .page-item.active .page-link:hover {
+            background-color: #138496;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3><%- pageTitle %></h3>
+        <a href="/admin/categories/create" class="btn btn-info mb-3">Create New Category</a>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let index = 0; index < categories.length; index++) { %>
+                    <tr>
+                        <td><%= categories[index].id %></td>
+                        <td><%= categories[index].title %></td>
+                        <td><%= categories[index].description %></td>
+                        <td>
+                            <a href="/admin/categories/edit/<%= categories[index]._id %>" class="btn btn-warning">Edit</a>
+                            <a href="/admin/categories/delete/<%= categories[index]._id %>" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
