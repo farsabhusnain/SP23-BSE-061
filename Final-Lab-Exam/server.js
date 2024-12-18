@@ -6,8 +6,6 @@ const expressLayouts = require("express-ejs-layouts");
 let server = express();
 let Product = require("./models/products.model");
 
-
-
 let User = require("./models/user.model");
 let cookieParser = require("cookie-parser");
 server.use(cookieParser());
@@ -19,7 +17,6 @@ let authMiddleware = require("./middlewares/auth-middleware");
 server.use(siteMiddleware);
 // Set up EJS as the view engine
 server.set("view engine", "ejs");
-
 
 // Use express layouts for the views
 server.use(expressLayouts);
@@ -65,20 +62,11 @@ server.get("/logout", async (req, res) => {
 server.get("/login", async (req, res) => {
   return res.render("auth/login");
 });
-/*server.post("/login", async (req, res) => {
-  let data = req.body;
-  let user = await User.findOne({ email: data.email });
-  if (!user) return res.redirect("/register");
-  isValid = user.password == data.password;
-  if (!isValid) return res.redirect("/login");
-  req.session.user = user;
-  return res.redirect("/");
-});*/
 
 server.post("/login", async (req, res) => {
   let data = req.body;
   let user = await User.findOne({ email: data.email });
-  
+
   if (!user) return res.redirect("/register");
 
   const isValid = user.password == data.password;
@@ -88,9 +76,11 @@ server.post("/login", async (req, res) => {
   res.clearCookie("cart"); // Clear the cart cookie on login
   return res.redirect("/");
 });
+
 server.get("/register", async (req, res) => {
   return res.render("auth/register");
 });
+
 server.post("/register", async (req, res) => {
   let data = req.body;
   let user = await User.findOne({ email: data.email });
@@ -99,13 +89,15 @@ server.post("/register", async (req, res) => {
   await user.save();
   return res.redirect("/login");
 });
+
 server.get("/cart", async (req, res) => {
   let cart = req.cookies.cart;
   cart = cart ? cart : [];
   let products = await Product.find({ _id: { $in: cart } });
   return res.render("cart", { products });
 });
-server.get("/add-to-cart/:id",authMiddleware, (req, res) => {
+
+server.get("/add-to-cart/:id", authMiddleware, (req, res) => {
   let cart = req.cookies.cart;
   cart = cart ? cart : [];
   cart.push(req.params.id);
@@ -148,63 +140,45 @@ server.post('/finalize-checkout', (req, res) => {
   `);
 });
 
-/*server.post('/place-order', (req, res) => {
-  // Handle order logic here (e.g., save to database)
-  console.log('Order placed:', req.body);
+let Order = require("./models/order.model"); // Import the Order model
 
-  // Respond with success
-  return res.status(200).send('Order placed successfully');
-});*/
-
-// POST request for placing the order
 server.post('/place-order', async (req, res) => {
-  let cart = req.cookies.cart || []; // Get the cart from cookies
-  let products = await Product.find({ _id: { $in: cart } }); // Fetch products in the cart
+  let cart = req.cookies.cart || []; // Retrieve cart from cookies
+  let products = await Product.find({ _id: { $in: cart } }); // Get product details
 
-  // Check if products are fetched correctly
-  console.log(products);  // Add this to debug and see if products data is being fetched
+  // Calculate total bill
+  let totalBill = products.reduce((total, product) => total + product.price, 0);
 
-  // Calculate the total bill
-  let totalBill = 0;
-  products.forEach(product => {
-      totalBill += product.price; // Assuming you don't have quantities
-  });
-
-  // Assuming customer details come from the request body
-  const customer = {
+  // Create order object
+  const order = new Order({
+    customer: {
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,
       address: req.body.address,
       city: req.body.city,
       zip: req.body.zip,
-  };
+    },
+    products: products.map(product => ({
+      title: product.title,
+      price: product.price,
+    })),
+    totalBill: totalBill,
+  });
 
-  // Render the order confirmation page with the products and totalBill
+  // Save order to database
+  await order.save();
+
+  // Clear cart cookie
+  res.clearCookie("cart");
+
+  // Pass the order details, including the products, to the confirmation page
   res.render('order-confirmation', {
-      products: products,
-      totalBill: totalBill,
-      customer: customer, // Pass customer details
+    customer: order.customer,
+    products: order.products, // Pass the products array to the view
+    totalBill: totalBill
   });
 });
-
-server.get("/", async (req, res) => {
-  // Extract min and max price from the query string (if available)
-  let { minPrice, maxPrice } = req.query;
-
-  // Set default values for minPrice and maxPrice if they are not provided
-  minPrice = minPrice ? parseFloat(minPrice) : 0;
-  maxPrice = maxPrice ? parseFloat(maxPrice) : Number.MAX_SAFE_INTEGER;
-
-  // Query the database to get products that fall within the specified price range
-  let products = await Product.find({
-    price: { $gte: minPrice, $lte: maxPrice }
-  });
-
-  // Render the homepage with filtered products
-  return res.render("homepage", { products, minPrice, maxPrice });
-});
-
 
 // Admin route for creating products (although it's already in products.controller.js, ensure it's not redundant)
 server.get("/admin/products/create", (req, res) => {
@@ -221,9 +195,27 @@ server.get("/admin/categories/create", (req, res) => {
   });
 });
 
-
 let adminMiddleware = require("./middlewares/admin-middleware");
 server.use("/bootstrap", authMiddleware, adminMiddleware, adminProductsRouter);
+
+// Admin route to view orders
+server.get("/admin/orders", adminMiddleware, async (req, res) => {
+  try {
+    // Fetch orders from the database
+    let orders = await Order.find();
+
+    // Pass orders to the admin orders view
+    res.render("admin/orders", {
+      orders: orders,
+      layout: "adminlayout",
+      pageTitle: "Manage Orders",
+    });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).send("Error fetching orders");
+  }
+});
+
 
 // MongoDB connection
 let connectionString = "mongodb://localhost:27017/farsab";
@@ -232,7 +224,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB Server: " + connectionString))
   .catch((error) => console.log(error.message));
 
-// Start the server at port 5003
-server.listen(5003, () => {
-  console.log(`Server started at localhost:5003`);
+// Start the server at port 5000
+server.listen(5009, () => {
+  console.log(`Server started at localhost:5000`);
 });

@@ -1,5 +1,7 @@
 const express = require("express");
 let router = express.Router();
+let Order = require('../../models/user.model');
+
 
 let multer = require("multer");
 const storage = multer.diskStorage({
@@ -79,5 +81,9 @@ router.get("/admin/products/:page?", async (req, res) => {
     totalPages,
   });
 });
+
+router.get("/admin/orders"),(req,res)=>{
+  res.render("admin/orders")
+}
 
 module.exports = router;
