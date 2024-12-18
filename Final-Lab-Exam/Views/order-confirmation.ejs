@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    <style>
+        /* Background Image with Overlay */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            background: url('https://cdn.vectorstock.com/i/1000x1000/61/87/pair-of-shoes-on-color-background-vector-21036187.webp') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        /* Confirmation Container */
+        .confirmation-container {
+            background: rgb(101, 183, 216);
+            border-radius: 15px;
+            padding: 30px 40px;
+            max-width: 700px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .confirmation-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: #fff;
+        }
+
+        .confirmation-container p {
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .confirmation-container table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .confirmation-container th,
+        .confirmation-container td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .confirmation-container th {
+            background-color: #007bff;
+        }
+
+        .confirmation-container td {
+            background-color: #f8f9fa;
+        }
+
+        .total-bill {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .user-details {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .btn-back-home {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 0;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-back-home:hover {
+            background-color: #218838;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="confirmation-container">
+        <h2>Order Confirmed</h2>
+        <p>Thank you for your purchase! Your order has been successfully placed.</p>
+
+        <!-- User Details Section -->
+        <div class="user-details">
+            <p><strong>Name:</strong> <%= customer.name %></p>
+            <p><strong>Email:</strong> <%= customer.email %></p>
+            <p><strong>Phone:</strong> <%= customer.phone %></p>
+            <p><strong>Address:</strong> <%= customer.address %>, <%= customer.city %>, <%= customer.zip %></p>
+        </div>
+
+        <h4>Order Summary</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody style="color: green;">
+                <% if (products && products.length > 0) { %>
+                    <% products.forEach(product => { %>
+                        <tr>
+                            <td><%= product.title %></td>
+                            <td>$<%= product.price.toFixed(2) %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="2">No products found in your order.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+        <!-- Total Bill Section -->
+        <div class="total-bill">
+            <p style="color: #0b60b9;font-weight: bold;"><strong>Total: $<%= totalBill.toFixed(2) %></strong></p>
+        </div>
+
+        <!-- Back to Homepage Button -->
+        <a href="/" class="btn-back-home">Return to Homepage</a>
+    </div>
+</body>
+
+</html>
