@@ -232,7 +232,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB Server: " + connectionString))
   .catch((error) => console.log(error.message));
 
-// Start the server at port 5000
+// Start the server at port 5003
 server.listen(5003, () => {
-  console.log(`Server started at localhost:5000`);
+  console.log(`Server started at localhost:5003`);
 });
