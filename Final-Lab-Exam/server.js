@@ -6,6 +6,8 @@ const expressLayouts = require("express-ejs-layouts");
 let server = express();
 let Product = require("./models/products.model");
 
+
+
 let User = require("./models/user.model");
 let cookieParser = require("cookie-parser");
 server.use(cookieParser());
@@ -186,6 +188,23 @@ server.post('/place-order', async (req, res) => {
   });
 });
 
+server.get("/", async (req, res) => {
+  // Extract min and max price from the query string (if available)
+  let { minPrice, maxPrice } = req.query;
+
+  // Set default values for minPrice and maxPrice if they are not provided
+  minPrice = minPrice ? parseFloat(minPrice) : 0;
+  maxPrice = maxPrice ? parseFloat(maxPrice) : Number.MAX_SAFE_INTEGER;
+
+  // Query the database to get products that fall within the specified price range
+  let products = await Product.find({
+    price: { $gte: minPrice, $lte: maxPrice }
+  });
+
+  // Render the homepage with filtered products
+  return res.render("homepage", { products, minPrice, maxPrice });
+});
+
 
 // Admin route for creating products (although it's already in products.controller.js, ensure it's not redundant)
 server.get("/admin/products/create", (req, res) => {
@@ -214,6 +233,6 @@ mongoose
   .catch((error) => console.log(error.message));
 
 // Start the server at port 5000
-server.listen(5001, () => {
+server.listen(5003, () => {
   console.log(`Server started at localhost:5000`);
 });

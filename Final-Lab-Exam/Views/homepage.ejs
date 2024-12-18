@@ -108,6 +108,64 @@
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
         }
 
+        /* Search Form Styling */
+        .search-form {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 300px;
+            margin-right: 10px;
+        }
+
+        .search-btn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Price Filter Form */
+        .price-filter {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .price-input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 120px;
+        }
+
+        .price-btn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .price-btn:hover {
+            background-color: #218838;
+        }
+
         @media (max-width: 768px) {
             h4 {
                 font-size: 2rem;
@@ -128,10 +186,23 @@
 
 <body>
     <div class="content-container">
+        <!-- Search Form -->
+        <div class="search-form">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search for products...">
+            <button class="search-btn" onclick="searchProducts()">Search</button>
+        </div>
+
+        <!-- Price Filter Form -->
+        <div class="price-filter">
+            <input type="number" id="minPrice" class="price-input" placeholder="Min Price" min="0">
+            <input type="number" id="maxPrice" class="price-input" placeholder="Max Price" min="0">
+            <button class="price-btn" onclick="filterByPrice()">Filter</button>
+        </div>
+
         <h4>My Featured Products</h4>
-        <div class="row">
+        <div class="row" id="productContainer">
             <% for (let index = 0; index < products.length; index++) { %>
-                <div class="col-4">
+                <div class="col-4 product-card">
                     <div class="card">
                         <img src="/<%= products[index].picture %>" alt="<%= products[index].title %>">
                         <div class="card-body">
@@ -146,6 +217,42 @@
             <% } %>
         </div>
     </div>
+
+    <script>
+        // Search Products by Title or Description
+        function searchProducts() {
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            const productCards = document.querySelectorAll(".product-card");
+
+            productCards.forEach(card => {
+                const title = card.querySelector(".card-title").textContent.toLowerCase();
+                const description = card.querySelector(".card-text").textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // Filter Products by Price Range
+        function filterByPrice() {
+            const minPrice = parseFloat(document.getElementById("minPrice").value) || 0;
+            const maxPrice = parseFloat(document.getElementById("maxPrice").value) || Infinity;
+            const productCards = document.querySelectorAll(".product-card");
+
+            productCards.forEach(card => {
+                const price = parseFloat(card.querySelector(".card-body .btn-primary").textContent.split('$')[1]);
+
+                if (price >= minPrice && price <= maxPrice) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
